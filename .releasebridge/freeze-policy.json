@@ -1,0 +1,11 @@
+{
+    "schema":  "RELEASEBRIDGE_PR_FREEZE_POLICY_V1",
+    "repo":  "Nimclea/quickprotect-v1-seed",
+    "base_ref":  "main",
+    "protected_paths":  [
+                            {
+                                "path":  "src/quickprotect-seed.js",
+                                "blob":  "e638835ea64f09a8ea8f9f92a5b94b9d079cc760"
+                            }
+                        ]
+}
