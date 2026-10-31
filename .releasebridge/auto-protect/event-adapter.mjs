@@ -41,8 +41,8 @@ export function classify(decideTransition, {head, current, files, policy, eviden
  });
  // This intake has no independent acceptance provider. It cannot promote to PASS.
  return {decision:receipt.outcome==='STOP'?'STOP':'UNKNOWN',original_k4:receipt,
-  why:!current?'CURRENT_GIT_BINDING_UNVERIFIED':forbidden.length?'PROTECTED_PATH_CHANGED':'INDEPENDENT_ACCEPTANCE_AND_AGENT_PROVENANCE_MISSING',
-  next:forbidden.length?'Do not advance this forbidden candidate.':'Obtain authorized independent acceptance and authenticated Agent-to-commit provenance for this exact revision; revalidate currentness.',
+  why:!current?'CURRENT_GIT_BINDING_UNVERIFIED':forbidden.length?'PROTECTED_PATH_CHANGED':'INDEPENDENT_ACCEPTANCE_MISSING',
+  next:!current?'Refresh PR event after Base and Candidate currentness match.':forbidden.length?'Restore protected files and submit a permitted Git candidate.':'Obtain independent acceptance for this exact Git candidate from existing CI/scope evidence; otherwise remain UNKNOWN.',
   agent_provenance:'AGENT_UNVERIFIED',proposal:null,changed_paths:files.map(f=>f.filename),evidence};
 }
 async function get(route) {
@@ -90,6 +90,11 @@ export async function main() {
   candidate:p?.head.sha??null,installation_id:e?.installation?.id??null,
   run_id:process.env.GITHUB_RUN_ID,run_attempt:process.env.GITHUB_RUN_ATTEMPT,
   workflow_sha:process.env.GITHUB_WORKFLOW_SHA,original_source_head:manifest.source_head};
+ result.exact_candidate_sha=result.binding.candidate;
+ result.evidence_used=Array.isArray(result.evidence)?result.evidence:[];
+ result.evidence_missing=result.decision==='UNKNOWN'?[result.why]:[];
+ result.next_action=result.next??'Inspect missing evidence before proceeding.';
+ result.freeze_proposal_eligible=false;
  // Data is JSON only; never interpreted as shell, executable paths, or workflow commands.
  const text=JSON.stringify(result,null,2);
  const marker=crypto.randomUUID();
