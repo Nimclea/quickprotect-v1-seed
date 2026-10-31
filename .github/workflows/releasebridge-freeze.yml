@@ -1,0 +1,28 @@
+name: releasebridge-freeze
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    name: releasebridge-freeze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout trusted PR base
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Enforce frozen Git blob and every introduced commit
+        env:
+          RB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          RB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RB_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: node .releasebridge/verify-pr.cjs
