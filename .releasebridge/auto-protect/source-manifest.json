@@ -1,0 +1,8 @@
+{
+  "source_head": "ee73a9362965a782540e43da0e5621a327863cc1",
+  "modules": {
+    "kernel/decision/transition-decision-engine-v0.1.mjs": "d1b681863620065bd4c8db77de2cf3f86f49d89d",
+    "kernel/decision/failure-classifier-v0.1.mjs": "62013ec5cc36501e8d3d6fffc332233ab330d588",
+    "kernel/proof/proof-runtime-v0.1.mjs": "a1209cf248e535ef828a54b05c52ff3e81a60026"
+  }
+}

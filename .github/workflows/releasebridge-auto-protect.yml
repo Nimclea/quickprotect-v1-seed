@@ -1,0 +1,22 @@
+name: ReleaseBridge Auto-Protect observation
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+concurrency:
+  group: rb-k4-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact trusted base
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Verify original modules and invoke K4
+        run: node .releasebridge/auto-protect/event-adapter.mjs
