@@ -99,8 +99,48 @@ export async function main() {
  const text=JSON.stringify(result,null,2);
  const marker=crypto.randomUUID();
  console.log('::stop-commands::'+marker); console.log(text); console.log('::'+marker+'::');
- if(process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-  'K4 decision: '+result.decision+'\n\nAgent provenance: AGENT_UNVERIFIED. No proposal or activation.\n');
+ if (process.env.GITHUB_STEP_SUMMARY) {
+  const safe = value => String(value ?? '')
+    .replace(/[\r\n|<>`]/g, ' ')
+    .slice(0, 600);
+  const binding = result.binding ?? {};
+  const pr = binding.pr;
+  const prUrl = Number.isSafeInteger(pr) && pr > 0
+    ? 'https://github.com/Nimclea/quickprotect-v1-seed/pull/' + pr
+    : null;
+  const lines = [
+    '## ReleaseBridge · Auto-Protect V1+',
+    '',
+    '**Decision: ' + safe(result.decision) + '**',
+    '',
+    '> Workflow success does not mean K4 PASS.',
+    '',
+    '| Field | Result |',
+    '| --- | --- |',
+    '| Candidate SHA | ' + safe(result.exact_candidate_sha ?? 'UNAVAILABLE') + ' |',
+    '| Original K4 outcome | ' + safe(result.original_k4?.outcome ?? 'UNKNOWN') + ' |',
+    '| K4 reason | ' + safe(result.original_k4?.reason_code ?? 'UNAVAILABLE') + ' |',
+    '| Agent provenance | ' + safe(result.agent_provenance ?? 'AGENT_UNVERIFIED') + ' |',
+    '| Freeze proposal eligible | ' + (result.freeze_proposal_eligible === true ? 'Yes' : 'No') + ' |',
+    '',
+    '### WHY',
+    '',
+    safe(result.why ?? 'No reason available'),
+    '',
+    '### NEXT',
+    '',
+    safe(result.next_action ?? result.next ?? 'Inspect existing evidence'),
+    '',
+    '### Evidence',
+    '',
+    '- PR: ' + (prUrl ? '[View PR](' + prUrl + ')' : 'Unavailable'),
+    '- Run ID: ' + safe(binding.run_id ?? 'UNAVAILABLE'),
+    '- Missing: ' + safe((result.evidence_missing ?? []).join(', ') || 'None stated'),
+    '',
+    '> No independent acceptance or Freeze activation is claimed.'
+  ];
+  fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+}
  return result;
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) {
