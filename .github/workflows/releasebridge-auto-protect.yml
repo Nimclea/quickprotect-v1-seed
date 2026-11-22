@@ -17,6 +17,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
-          fetch-depth: 1
+          fetch-depth: 0
       - name: Verify original modules and invoke K4
+        env:
+          RB_FETCH_CANDIDATE: 'true'
         run: node .releasebridge/auto-protect/event-adapter.mjs
