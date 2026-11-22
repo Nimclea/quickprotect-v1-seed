@@ -1,0 +1,113 @@
+AUTO_PROTECT_V1_PLUS_SEED_NATIVE_CONTINUATION
+
+Run native regressions:
+  node --test .releasebridge/auto-protect/native-consumer.test.mjs
+Run read-only native workspace probe:
+  node .releasebridge/auto-protect/native-probe.mjs
+
+event-adapter.mjs remains the PR entry point. It verifies the exact three original
+module blobs before importing K4, binds the PR/base/candidate, reads local Git
+history, collects CI as context only, and re-reads PR/base after acceptance.
+The original K4/K5, seed product, QuickProtect policy/verifier/workflow and source
+manifest are unchanged. The observation workflow now requests full base history
+and opts into exact-candidate Git-object fetching by the trusted adapter.
+
+consumeCandidate projects the original K4 receipt. PASS requires reason
+AFFECTED_CLAIM_REPROVEN_CURRENT, exact acceptance identity, applicable current
+authority, and complete preserved native history. Other PRESERVE results remain
+UNKNOWN. Original STOP receipts remain STOP with specific NEXT instructions.
+Protected-path changes are submitted to K4 as the existing authority conflict;
+they cannot be hidden by incomplete provider scope or change-then-revert history.
+Stale identity still takes precedence as UNKNOWN, matching original K4.
+
+No production acceptance provider is configured. The CLI and workflow cannot
+obtain one from JSON, environment variables, candidate code, or CI conclusions.
+An existing authenticated provider may be integrated by trusted base-owned code
+via main({readQualifiedAcceptance: async binding => acceptedRecord}). That provider
+must authenticate independent code acceptance and verify existing authority.
+Agent attribution is an independent optional dimension; if supplied as authenticated,
+it must also be authenticated by that trusted provider.
+The adapter checks exact binding but does not implement external authentication.
+Provider booleans or K5 content hashes are not external authentication by themselves.
+Do not connect this callback directly to untrusted PR data.
+
+Binding fields: repository, repository_id, pr, base, candidate.
+Acceptance fields: binding, identity, scope, evidence, authority; agent_provenance
+is optional and does not substitute for any of those code-acceptance fields.
+Identity: current=true; revision=candidate;
+  identity_id="1440488291:pr:<pr>:<candidate>";
+  scene="github-pr-freeze-proposal".
+Scope/evidence/authority are passed to the original K4, including its original
+K5 evidence qualification. The consumer does not manufacture full_proof or grant
+allows_transition. No inspected original K4/K5 or protection contract requires
+Coding Agent identity for this claim. Applicable authority restrictions remain
+inputs to original K4 and are never cleared because of an Agent attribution result.
+
+Independent output dimensions:
+  decision: PASS / STOP / UNKNOWN (code decision, retaining the existing field).
+  agent_provenance: AGENT_VERIFIED / AGENT_UNVERIFIED / AGENT_CONFLICT.
+AGENT_VERIFIED requires authenticated=true, exact binding, and a nonblank reference.
+Missing authentication, binding or reference stays AGENT_UNVERIFIED. An authenticated
+explicit conflict=true or a valid authenticated binding for a different candidate,
+PR, repository or base yields AGENT_CONFLICT. An unauthenticated conflict assertion
+does not establish a conflict. These assertions are consumed through the existing
+trusted provider boundary, not accepted directly from arbitrary JSON.
+Neither Agent verification nor attribution conflict changes the K4 input or receipt.
+Qualified synthetic code may exercise PASS with UNVERIFIED or CONFLICT attribution, while any applicable
+original authority conflict still produces STOP. next addresses the code decision;
+agent_provenance_next independently addresses attribution.
+
+proposal is always null and freeze_proposal_eligible is false. The existing provider
+contract has no qualified new-path/Git-blob acceptance binding. Old protected_paths,
+PR diffs and invented target fields cannot substitute for that contract. No proposal
+generator, new provider, signing, activation, or governance role is introduced.
+
+Native history rejects shallow repositories, verifies exact commit objects and
+base ancestry, and inspects every introduced commit (maximum 100), including
+protected change-then-revert. Missing objects remain UNKNOWN. Non-ancestor,
+merge, oversized and protected-change histories are rejected. Local inspection
+is read-only by default. RB_FETCH_CANDIDATE=true opts the trusted Actions runtime
+into fetching the validated head SHA as objects from the fixed seed repository;
+HEAD must equal the exact base before fetching. No candidate checkout, imports,
+hooks, dependencies or scripts are executed. The existing QuickProtect check
+remains authoritative and unchanged.
+
+The regression fixture uses isolated native Git repositories and the ORIGINAL
+K4/K5 modules. Its PR, positive acceptance, authority, and provenance are explicitly
+synthetic. evidence/native-observation-synthetic-receipts.json is an execution artifact, not
+real candidate acceptance or a live GitHub attestation. The native probe instead
+reads this actual workspace and invokes the actual entry point. Cached origin/main
+is never described as live currentness.
+
+The earlier continuation lacked Q1/Q2/Q3 and two-car scenario definitions; its
+UNKNOWN report is historical. This repair's limited local assessments appear below.
+No historical STOP is lifted. Native tests cover all seven original explicit STOP reasons plus
+protected changes, rename sources, revert history, and cross-candidate rejection.
+
+Bounded repair authority (AUTO_PROTECT_V1_PLUS_AGENT_PROVENANCE_DECOUPLING_V1):
+The Founder expressly authorized this inert source repair. The pre-repair recorded
+two-car status was NOT_LIFTED, without a predicate forbidding redirected local repair.
+No applicable STOP barring this repair was found in the inspected source/protection
+contracts; no historical STOP is lifted. Q1 reality/safety and Q2 primary-line
+integrity can be assessed locally by honest fixture labeling and unchanged protected
+assets. Q3 current-stage value is regression-verified defect removal, not independent
+Q3 acceptance or real GitHub consumption. Remaining delivery blocker: an actual
+authenticated, exact-candidate GitHub consumption run, including live currentness,
+qualified independent code acceptance, applicable authority and complete history.
+Agent authentication is not that blocker. No production provider was added.
+
+RB_V1PLUS_NATIVE_OBSERVATION_AND_DECISION_CARD:
+The customer Job Summary uses real newlines and encodes untrusted markup and
+control characters. It shows PR, exact candidate/base, decision, WHY, NEXT,
+evidence used/missing, original K4 outcome/reason, independent Agent attribution,
+history and proposal status. Compatible JSON fields are restored. CI remains
+context only; an unavailable CI endpoint cannot conceal a protected-path STOP.
+No-provider native observations remain UNKNOWN unless original K4 requires STOP.
+
+Deployment boundary: pull_request_target executes the installed trusted base.
+A review-only PR carrying this repair cannot execute its own revised adapter or
+workflow. Its Actions observation must be identified as the installed-base
+consumer. Local tests of the revised candidate are not live revised-card evidence
+or Q3. Making the repair the trusted base requires separate authorized adoption;
+this work item does not merge, sign or activate anything. The two-car STOP remains
+NOT_LIFTED. No historical STOP is lifted.
